@@ -2,17 +2,27 @@ package com.felino.domain;
 
 public class Todo {
 
-	private int id;
+	private Long id;
 
 	private String description;
 
 	private String title;
 
-	public int getId() {
+	public Todo(Long id, String description, String title) {
+		this.id = id;
+		this.description = description;
+		this.title = title;
+	}
+	
+	public Todo(){
+		super();
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

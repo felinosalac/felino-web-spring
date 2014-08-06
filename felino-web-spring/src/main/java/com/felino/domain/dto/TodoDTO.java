@@ -1,18 +1,26 @@
 package com.felino.domain.dto;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+
 public class TodoDTO {
 	
-	private int id;
+	private Long id;
 	
+	@Length(max = 500)
 	private String description;
 	
+	@NotEmpty
+	@Length(max = 100)
 	private String title;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -1,28 +1,30 @@
 package com.felino.controller;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.util.Arrays;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.felino.builder.TodoBuilder;
+import com.felino.configuration.TestContext;
+import com.felino.configuration.WebAppContext;
 import com.felino.domain.Todo;
+import com.felino.service.ToDoService;
+import com.felino.util.TestUtil;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContext.class, WebAppContext.class})
@@ -32,11 +34,17 @@ public class TodoControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private TodoService todoServiceMock;
+    private ToDoService toDoServiceMock;
 
     //Add WebApplicationContext field here.
-
+    @Autowired 
+    private WebApplicationContext ctx;
+    
     //The setUp() method is omitted.
+    @Before 
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+    }
 
     @Test
     public void findAll_TodosFound_ShouldReturnFoundTodoEntries() throws Exception {
@@ -51,7 +59,7 @@ public class TodoControllerTest {
                 .title("Bar")
                 .build();
 
-        when(todoServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
+        when(toDoServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
 
         mockMvc.perform(get("/api/todo"))
                 .andExpect(status().isOk())
@@ -64,7 +72,7 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$[1].description", is("Lorem ipsum")))
                 .andExpect(jsonPath("$[1].title", is("Bar")));
 
-        verify(todoServiceMock, times(1)).findAll();
-        verifyNoMoreInteractions(todoServiceMock);
+        verify(toDoServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(toDoServiceMock);
     }
 }
