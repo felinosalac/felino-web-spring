@@ -17,7 +17,7 @@ import java.util.Properties;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {
-        "com.felino.controller.TodoController"
+        "com.felino.controller"
 })
 public class WebAppContext extends WebMvcConfigurerAdapter {
  

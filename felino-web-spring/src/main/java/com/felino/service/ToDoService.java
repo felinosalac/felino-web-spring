@@ -12,4 +12,6 @@ public interface ToDoService {
 
 	List<Todo> findAll();
 
+	Todo findById(long l);
+
 }

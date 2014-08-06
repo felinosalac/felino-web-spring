@@ -10,6 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -22,6 +24,7 @@ import com.felino.builder.TodoBuilder;
 import com.felino.configuration.TestContext;
 import com.felino.configuration.WebAppContext;
 import com.felino.domain.Todo;
+import com.felino.exception.TodoNotFoundException;
 import com.felino.service.ToDoService;
 import com.felino.util.TestUtil;
 
@@ -60,7 +63,7 @@ public class TodoControllerTest {
                 .build();
 
         when(toDoServiceMock.findAll()).thenReturn(Arrays.asList(first, second));
-
+        
         mockMvc.perform(get("/api/todo"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
@@ -73,6 +76,17 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$[1].title", is("Bar")));
 
         verify(toDoServiceMock, times(1)).findAll();
+        verifyNoMoreInteractions(toDoServiceMock);
+    }
+    
+    @Test
+    public void findById_TodoEntryNotFound_ShouldReturnHttpStatusCode404() throws Exception {
+        when(toDoServiceMock.findById(1L)).thenThrow(new TodoNotFoundException(""));
+
+        mockMvc.perform(get("/api/todo/{id}", 1L))
+                .andExpect(status().isNotFound());
+
+        verify(toDoServiceMock, times(1)).findById(1L);
         verifyNoMoreInteractions(toDoServiceMock);
     }
 }
