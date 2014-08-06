@@ -48,6 +48,17 @@ public class TodoControllerTest {
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
     }
+    
+    @Test
+    public void findById_TodoEntryNotFound_ShouldReturnHttpStatusCode404() throws Exception {
+        when(toDoServiceMock.findById(1L)).thenThrow(new TodoNotFoundException(""));
+
+        mockMvc.perform(get("/api/todo/{id}", 1L))
+                .andExpect(status().isNotFound());
+
+        verify(toDoServiceMock, times(1)).findById(1L);
+        verifyNoMoreInteractions(toDoServiceMock);
+    }
 
     @Test
     public void findAll_TodosFound_ShouldReturnFoundTodoEntries() throws Exception {
@@ -79,14 +90,5 @@ public class TodoControllerTest {
         verifyNoMoreInteractions(toDoServiceMock);
     }
     
-    @Test
-    public void findById_TodoEntryNotFound_ShouldReturnHttpStatusCode404() throws Exception {
-        when(toDoServiceMock.findById(1L)).thenThrow(new TodoNotFoundException(""));
 
-        mockMvc.perform(get("/api/todo/{id}", 1L))
-                .andExpect(status().isNotFound());
-
-        verify(toDoServiceMock, times(1)).findById(1L);
-        verifyNoMoreInteractions(toDoServiceMock);
-    }
 }
