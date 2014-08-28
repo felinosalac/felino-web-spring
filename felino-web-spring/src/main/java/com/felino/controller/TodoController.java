@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class TodoController {
 	@Autowired
 	private ToDoService toDoService;
 
-    @RequestMapping(value = "/api/todo", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/todo", method = RequestMethod.GET, consumes={MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<TodoDTO> findAll() {
         List<Todo> models = toDoService.findAll();
