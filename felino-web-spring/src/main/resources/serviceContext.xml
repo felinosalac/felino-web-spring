@@ -53,7 +53,7 @@
 		</property>
 		<property name="packagesToScan">
 			<util:list>
-				<value>com.felino.model.Todo</value>
+				<value>com.felino.model</value>
 			</util:list>
 		</property>
 	</bean>

@@ -1,12 +1,21 @@
 package com.felino.model;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "todos")
 public class Todo extends Model {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	private Long id;
 
 	@Column(name = "description")
 	private String description;
@@ -22,6 +31,14 @@ public class Todo extends Model {
 	
 	public Todo(){
 		super();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getDescription() {
