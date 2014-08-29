@@ -1,29 +1,27 @@
-package com.felino.domain;
+package com.felino.model;
 
-public class Todo {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-	private Long id;
+@Entity
+@Table(name = "todos")
+public class Todo extends Model {
 
+	@Column(name = "description")
 	private String description;
 
+	@Column(name = "title")
 	private String title;
 
 	public Todo(Long id, String description, String title) {
-		this.id = id;
+		this.setId(id);
 		this.description = description;
 		this.title = title;
 	}
 	
 	public Todo(){
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getDescription() {

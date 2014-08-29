@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.felino.builder.TodoBuilder;
 import com.felino.configuration.TestContext;
 import com.felino.configuration.WebAppContext;
-import com.felino.domain.Todo;
 import com.felino.exception.TodoNotFoundException;
+import com.felino.model.Todo;
 import com.felino.service.ToDoService;
 import com.felino.util.TestUtil;
 

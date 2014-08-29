@@ -1,4 +1,4 @@
-package com.felino.domain.dto;
+package com.felino.model.dto;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;

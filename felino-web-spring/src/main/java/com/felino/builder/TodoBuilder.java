@@ -1,6 +1,6 @@
 package com.felino.builder;
 
-import com.felino.domain.Todo;
+import com.felino.model.Todo;
 
 public class TodoBuilder {
 	
