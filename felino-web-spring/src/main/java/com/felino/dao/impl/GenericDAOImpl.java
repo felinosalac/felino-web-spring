@@ -74,5 +74,9 @@ public class GenericDAOImpl<T extends Model> extends AbstractDaoSupport implemen
 		
 		return list;
 	}
+	
+	public  Class<T>  getPersistentClass() {
+		return this.persistentClass;
+	}
 
 }
