@@ -22,7 +22,7 @@ public class TodoController {
 	@Autowired
 	private ToDoService toDoService;
 
-    @RequestMapping(value = "/todo", method = RequestMethod.GET, consumes={MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/todo", method = RequestMethod.GET) //consumes={MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE
     @ResponseBody
     public List<TodoDTO> findAll() {
         List<Todo> models = toDoService.findAll();

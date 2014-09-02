@@ -9,7 +9,8 @@
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>
-	        classpath:serviceContext.xml
+	        classpath:service-context.xml
+	        classpath:spring-security.xml
 	    </param-value>
 	</context-param>
 	<listener>
@@ -54,5 +55,31 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping> 
+	
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- JSPs -->
+    <servlet>
+        <servlet-name>403Jsp</servlet-name>
+        <jsp-file>/403.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>403Jsp</servlet-name>
+        <url-pattern>/403</url-pattern>
+    </servlet-mapping>
+ 
+ 
+    <!-- The error page -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/403</location>
+    </error-page>
 
 </web-app>

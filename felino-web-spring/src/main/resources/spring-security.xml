@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+    <http pattern="/resources/**" security="none"/>
+	<http use-expressions="true" access-denied-page="/403" disable-url-rewriting="true">
+	    <!--  
+		<intercept-url pattern="/sec/moderation.html" access="ROLE_MODERATOR" />
+		<intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
+		-->
+		
+		<session-management invalid-session-url="/login?time=1">
+            <concurrency-control max-sessions="1" expired-url="/login?time=1" />
+        </session-management>
+ 
+        <form-login login-page="/login" login-processing-url="/login.do" default-target-url="/login" always-use-default-target="true" authentication-failure-url="/login?error=1" username-parameter="username" password-parameter="password" />
+ 
+        <logout logout-url="/logout" logout-success-url="/login?out=1" delete-cookies="JSESSIONID" invalidate-session="true" />
+ 
+        <!-- 
+        <intercept-url requires-channel="https" pattern="/login*" access="permitAll()" />
+        <intercept-url requires-channel="https" pattern="/**" access="hasRole('ROLE_USER')" />
+         -->
+         
+        <intercept-url pattern="/login*" access="permitAll()" />
+        <intercept-url pattern="/index*" access="permitAll()" />
+        <intercept-url pattern="/home*" access="permitAll()" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/page/*" access="hasRole('ROLE_USER')" />
+        
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider user-service-ref="customUserDetailsService">
+			<password-encoder hash="plaintext">
+		</password-encoder></authentication-provider>
+	</authentication-manager>
+	
+</beans:beans>

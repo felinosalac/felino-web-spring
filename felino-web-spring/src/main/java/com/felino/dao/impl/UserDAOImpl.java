@@ -1,6 +1,7 @@
 package com.felino.dao.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -14,22 +15,25 @@ import com.felino.model.User;
 @Repository
 public class UserDAOImpl extends GenericDAOImpl<User> implements UserDAO {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public User getUser(final String username) {
 		
-		getHibernateTemplate().executeFind(new HibernateCallback<User>() {
+		List<User> users = getHibernateTemplate().executeFind(new HibernateCallback<List<User>>() {
 
 			@Override
-			public User doInHibernate(Session session) throws HibernateException, SQLException {
+			public List<User> doInHibernate(Session session) throws HibernateException, SQLException {
 				
-				Query query = session.createQuery("from " + getPersistentClass() + " u where u.username = :username");
+				Query query = session.createQuery("from " + getPersistentClass().getName() + " u where u.username = :username");
 				query.setParameter("username", username);
 				
-				User user = (User) query.uniqueResult();
-				
-				return user;
+				return query.list();
 			}
 		});
+		
+		if(users != null && !users.isEmpty()) {
+			return users.get(0);
+		}
 		
 		return null;
 	}
