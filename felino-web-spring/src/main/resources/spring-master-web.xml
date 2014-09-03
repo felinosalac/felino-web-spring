@@ -16,15 +16,11 @@
 	
 	<context:component-scan base-package="com.felino.controller, com.felino.web.controller" />
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/jsp/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
 	</bean>
 	
-	<mvc:resources mapping="/resources/**" location="/WEB-INF/" />
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/public-resources/" />
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven/>
 	

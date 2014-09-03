@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>felino-web-spring</groupId>
+	<groupId>com.felino.felino-web-spring</groupId>
 	<artifactId>felino-web-spring</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>felino-web-spring Maven Webapp</name>
+	<name>felino-web-spring</name>
 
 
 	<!-- ****************************** -->

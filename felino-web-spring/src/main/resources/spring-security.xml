@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
+<beans:beans 
+    xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:beans="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -7,38 +8,50 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 	
-    <http pattern="/resources/**" security="none"/>
-	<http use-expressions="true" access-denied-page="/403" disable-url-rewriting="true">
-	    <!--  
-		<intercept-url pattern="/sec/moderation.html" access="ROLE_MODERATOR" />
-		<intercept-url pattern="/admin/*" access="ROLE_ADMIN"/>
-		-->
-		
-		<session-management invalid-session-url="/login?time=1">
+    <security:http pattern="/resources/**" security="none"/>
+    
+	<security:http use-expressions="true" disable-url-rewriting="true">
+		<!-- <session-management invalid-session-url="/login?time=1">
             <concurrency-control max-sessions="1" expired-url="/login?time=1" />
-        </session-management>
+        </session-management> -->
+
+	<security:form-login 
+	    login-page="/login"
+		login-processing-url="/login.do" 
+		default-target-url="/landing-page"
+		always-use-default-target="true" 
+		authentication-failure-url="/login?error=1"
+		username-parameter="username" 
+		password-parameter="password" />
+	
+	<security:logout logout-url="/logout"
+		logout-success-url="/login?out=1" 
+		delete-cookies="JSESSIONID"
+		invalidate-session="true" />
  
-        <form-login login-page="/login" login-processing-url="/login.do" default-target-url="/login" always-use-default-target="true" authentication-failure-url="/login?error=1" username-parameter="username" password-parameter="password" />
- 
-        <logout logout-url="/logout" logout-success-url="/login?out=1" delete-cookies="JSESSIONID" invalidate-session="true" />
- 
-        <!-- 
+        <security:intercept-url pattern="/login*" access="permitAll()" />
+        <security:intercept-url pattern="/index*" access="permitAll()" />
+        <security:intercept-url pattern="/home*" access="permitAll()" />
+		<!--         
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+        <security:intercept-url pattern="/page/*" access="hasRole('ROLE_USER')" /> 
+        -->
+        <security:intercept-url pattern="/landing-page" access="isAuthenticated()" />
+        <security:intercept-url pattern="/admin/**" access="isAuthenticated() and hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER')" />
+        <security:intercept-url pattern="/moderator/**" access="isAuthenticated() and hasRole('ROLE_MODERATOR')" />
+        <security:intercept-url pattern="/user/**" access="isAuthenticated() and hasRole('ROLE_USER')" />
+        
+        <security:access-denied-handler error-page="/landing-page"/>
+         <!-- 
         <intercept-url requires-channel="https" pattern="/login*" access="permitAll()" />
         <intercept-url requires-channel="https" pattern="/**" access="hasRole('ROLE_USER')" />
          -->
-         
-        <intercept-url pattern="/login*" access="permitAll()" />
-        <intercept-url pattern="/index*" access="permitAll()" />
-        <intercept-url pattern="/home*" access="permitAll()" />
-        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-        <intercept-url pattern="/page/*" access="hasRole('ROLE_USER')" />
-        
-	</http>
+	</security:http>
 	
-	<authentication-manager>
-		<authentication-provider user-service-ref="customUserDetailsService">
-			<password-encoder hash="plaintext">
-		</password-encoder></authentication-provider>
-	</authentication-manager>
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder hash="plaintext"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
 	
 </beans:beans>

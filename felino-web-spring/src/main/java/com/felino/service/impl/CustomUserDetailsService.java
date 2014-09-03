@@ -60,7 +60,11 @@ public class CustomUserDetailsService implements UserDetailsService{
             roles.add("ROLE_USER");
         } else if (role.intValue() == 2) {
             roles.add("ROLE_MODERATOR");
+            roles.add("ROLE_USER");
+        } else if (role.intValue() == 3) {
+        	roles.add("ROLE_USER");
         }
+        
         return roles;
     }
      

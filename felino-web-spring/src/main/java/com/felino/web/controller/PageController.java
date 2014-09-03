@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/page")
-public class PageController {
+public class PageController extends BaseController{
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model, @RequestParam(value="page", required=false) String page) {
  
-		return page;
+		return "public/" + page;
  
 	}
 
